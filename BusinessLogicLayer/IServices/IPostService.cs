@@ -17,7 +17,7 @@ namespace BusinessLogicLayer.IServices
         /// <param name="post"></param>
         /// <param name="message"></param>
         /// <returns>Object of Post</returns>
-        Post? CreatePost(Post post, out string message);
+        Post? CreatePost(Post post, List<int>tagIds, out string message);
 
         /// <summary>
         /// Get all posts
@@ -30,7 +30,7 @@ namespace BusinessLogicLayer.IServices
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Object of Post</returns>
-        Post? GetPost(int id);
+        Post? GetPost(int id, bool withLikes = false, bool withComments = false, bool withTags = false);
 
         /// <summary>
         /// Update Post

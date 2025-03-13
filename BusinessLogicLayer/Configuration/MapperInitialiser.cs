@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using DomainLayer.CommentDto;
-using DomainLayer.CommentDtp;
 using DomainLayer.DTO;
 using DomainLayer.LikeDto;
 using DomainLayer.Model;
 using DomainLayer.PostDto;
 using DomainLayer.UserDto;
+using DomainLayer.TagDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,10 +27,14 @@ namespace BusinessLogicLayer.Configuration
             //mappers for posts
             CreateMap<Post, CreatePostDto>().ReverseMap();
             CreateMap<Post, UpdatePostDto>().ReverseMap();
-            CreateMap<Post, PostDto>().ReverseMap();
+            CreateMap<Post, PostDto>()
+                .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.Tags))
+                .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments))
+                .ForMember(dest => dest.LikesCount, opt => opt.MapFrom(src => src.Likes.Count))
+                .ReverseMap();
 
             //Mappers for comments
-            CreateMap<Comment, CreatCommentDto>().ReverseMap();
+            CreateMap<Comment, CreateCommentDto>().ReverseMap();
             CreateMap<Comment, UpdateCommentDto>().ReverseMap();
             CreateMap<Comment, CommentDto>().ReverseMap();
 
@@ -38,6 +42,11 @@ namespace BusinessLogicLayer.Configuration
             CreateMap<Like, CreateLikeDto>().ReverseMap();
             //CreateMap<Like, UpdateLikeDto>().ReverseMap();
             CreateMap<Like, LikeDto>().ReverseMap();
+
+            //Mappers for comments
+            CreateMap<Tag, CreateTagDto>().ReverseMap();
+            CreateMap<Tag, UpdateTagDto>().ReverseMap();
+            CreateMap<Tag, TagDto>().ReverseMap();
         }
     }
 }

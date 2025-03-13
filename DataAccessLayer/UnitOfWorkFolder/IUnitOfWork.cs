@@ -16,5 +16,7 @@ namespace DataAccessLayer.UnitOfWorkFolder
         CommentRepository commentRepository { get; }
 
         LikeRepository likeRepository { get;  }
+
+        TagRepository tagRepository { get; }
     }
 }

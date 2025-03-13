@@ -1,6 +1,8 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.IRepository;
 using DomainLayer.Model;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,9 +37,21 @@ namespace DataAccessLayer.Repository
         }
 
         //function to get a single post
-        public Post? Get(int id)
+        public Post? Get(int id, bool withLikes = true, bool withComments = true, bool withTags = true)
         {
-            Post? post = _applicationDbContext.Posts.Find(id);
+            IQueryable<Post> query = _applicationDbContext.Posts
+                .Where(p => p.Id == id);
+
+            if (withLikes)
+                query = query.Include(p => p.Likes);
+
+            if (withComments)
+                query = query.Include(p => p.Comments);
+
+            if (withTags)
+                query = query.Include(p => p.Tags);
+
+            Post? post = query.FirstOrDefault();
 
             return post;
         }

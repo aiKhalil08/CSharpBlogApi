@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace DomainLayer.Model
 {
     public class Comment : BaseModel
     {
-        //setting the table to varchar in the database
         [Column(TypeName = "varchar(200)")]
         public string Content { get; set; }
 
         [ForeignKey("PostId")]
+        [DeleteBehavior(DeleteBehavior.NoAction)]
         public Post post { get; set; }
         public int PostId { get; set; }
 

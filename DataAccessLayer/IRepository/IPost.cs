@@ -32,7 +32,7 @@ namespace DataAccessLayer.IRepository
         /// </summary>
         /// <param name="post"></param>
         /// <returns>Object of Post</returns>
-        Post? Get(int id);
+        Post? Get(int id, bool withLikes, bool withComments, bool withTags);
 
         /// <summary>
         /// Update Post

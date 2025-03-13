@@ -24,6 +24,7 @@ namespace DataAccessLayer.UnitOfWorkFolder
         private PostRepository _postRepository;
         private CommentRepository _commentRepository;
         private LikeRepository _likeRepository;
+        private TagRepository _tagRepository;
         public UserRepository userRepository => _userRepository ??= new UserRepository(_userManager);
 
         public PostRepository postRepository => _postRepository ??= new PostRepository(_applicationDbContext);
@@ -31,5 +32,7 @@ namespace DataAccessLayer.UnitOfWorkFolder
         public CommentRepository commentRepository => _commentRepository ??= new CommentRepository(_applicationDbContext);
 
         public LikeRepository likeRepository => _likeRepository ??= new LikeRepository(_applicationDbContext);
+
+        public TagRepository tagRepository => _tagRepository ??= new TagRepository(_applicationDbContext);
     }
 }

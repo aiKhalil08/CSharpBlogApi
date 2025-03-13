@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.IServices;
+using DataAccessLayer.Repository;
 using DataAccessLayer.UnitOfWorkFolder;
 using DomainLayer.Model;
 using System;
@@ -18,7 +19,7 @@ namespace BusinessLogicLayer.Service
             _unitOfWork = unitOfWork;
         }
 
-        public Post? CreatePost(Post post, out string message)
+        public Post? CreatePost(Post post, List<int> tagIds, out string message)
         {
             //checking if the user enters values
             if (string.IsNullOrEmpty(post.Content))
@@ -41,7 +42,23 @@ namespace BusinessLogicLayer.Service
 
             message = "Created successfully";
 
-            return _unitOfWork.postRepository.Create(post);
+            Post createdPost = _unitOfWork.postRepository.Create(post);
+
+            // associate tags
+            if (tagIds != null && tagIds.Count > 0)
+            {
+                foreach (var tagId in tagIds)
+                {
+                    var tag = _unitOfWork.tagRepository.Get(tagId);
+                    if (tag != null)
+                    {
+                        createdPost.Tags.Add(tag);
+                        _unitOfWork.postRepository.Update(createdPost);
+                    }
+                }
+            }
+
+            return createdPost;
         }
 
         public bool DeletePost(int id, out string message)
@@ -73,7 +90,7 @@ namespace BusinessLogicLayer.Service
             return _unitOfWork.postRepository.GetAll();
         }
 
-        public Post? GetPost(int id)
+        public Post? GetPost(int id, bool withLikes = false, bool withComments = false, bool withTags = false)
         {
             //checking if the id is valid
             if (id <= 0)
@@ -81,7 +98,7 @@ namespace BusinessLogicLayer.Service
                 return null;
             }
 
-            Post? post = _unitOfWork.postRepository.Get(id);
+            Post? post = _unitOfWork.postRepository.Get(id, withLikes, withComments, withTags);
 
             //checking if post exists
             if (post == null)

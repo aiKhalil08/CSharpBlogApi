@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DomainLayer.CommentDtp
+namespace DomainLayer.CommentDto
 {
-    public class CreatCommentDto
+    public class CreateCommentDto
     {
         public string Content { get; set; }
         public int PostId { get; set; }    
